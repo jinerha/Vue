@@ -1,0 +1,53 @@
+index.js
+
+	1、reduce函数不是太懂，两个参数怎么用？
+
+		该回调函数的返回值为累积结果，并且此返回值在下一次调用该回调函数时作为参数提供。
+		reduce(function(prev,cur))
+
+	2、import { getShopList } from '@/server/api'。这个地方，api.js中返回的是一个函数，什么作用？这边怎么引用的？
+
+		api.js中返回的是一个函数export function(){}，所以要用解构赋值的方式。如果直接是export default返回的，就不用解构赋值了
+
+	3、store实例中action的作用，以及then的用法
+
+		.then方法是异步执行，字面意思就是上一步执行完了，执行下一步，不过这是 Promise 对象的方法，非 Promise 对象没有 then 方法
+
+		then()方法是异步执行。
+		意思是：就是当.then()前的方法执行完后再执行then()内部的程序，这样就避免了，数据没获取到等的问题。
+		语法：promise.then(onCompleted, onRejected);
+
+		参数
+			promise必需。Promise 对象。
+
+			onCompleted必需。承诺成功完成时要运行的履行处理程序函数。
+
+			onRejected可选。承诺被拒绝时要运行的错误处理程序函数。
+
+	4、mutations中changeShopList函数的作用
+
+		上边的一个函数，用来更新shoplist
+
+shopCar.vue
+
+	1、 async mounted（）{}用法，里边dispatch函数及.then的用法以及作用
+
+		参考：https://www.cnblogs.com/zczhangcui/p/6642144.html
+
+		1、async函数返回一个 Promise 对象。
+
+		async函数内部return语句返回的值，会成为then方法回调函数的参数。
+
+		2、async函数内部抛出错误，会导致返回的 Promise 对象变为reject状态。抛出的错误对象会被catch方法回调函数接收到。
+		
+		3、只有async函数内部的异步操作执行完，才会执行then方法指定的回调函数。
+
+		4、正常情况下，await命令后面是一个 Promise 对象。如果不是，会被转成一个立即resolve的 Promise 对象。
+
+		5、有时，我们希望即使前一个异步操作失败，也不要中断后面的异步操作。这时可以将第一个await放在try...catch结构里面，这样不管这个异步操作是否成功，第二个await都会执行。
+
+shopItemBox.vue
+
+	1、单选toggleOne中commit提交的对象中checked为什么是!this.option.checked？？？
+
+	2、@mousedown.prevent是为了阻止默认行为吗？
