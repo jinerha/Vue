@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>this的指向详解</title>
+</head>
+<body>
+	<script>
+		//----------  1 ----------
+		/*function a() {
+			var user = "追梦人";
+			console.log(this);	//window
+			console.log(this.user);	//underfined
+		}
+		a()	//相当于window.a()*/
+
+		//----------  2 ----------
+		/*let o = {
+			user: "追梦人",
+			fn: function() {
+				console.log(this);	//{user: "追梦人",fn: f}	(对象o)
+				console.log(this.user);	//追梦人
+			}
+		}
+		o.fn();	//this执行时被上一级对象o调用*/
+
+		//----------  3 ----------
+		/*var o = {
+		    a:10,
+		    b:{
+		        //a:12,
+		        fn:function(){
+		            console.log(this.a); //undefind  有两个对象b和o,所以此this.a指向它的上一级
+		        }
+		    },
+		    fn1:function(){
+		        console.log(this.a);  //10 
+		    }
+		}
+		o.fn1();	//
+		o.b.fn();	//被多个对象调用，this指向它的上一级对象*/
+
+		// ----------  4 ----------
+		/*function fn() {  
+		    this.user = '追梦子';  
+		    return null
+		}
+		var a = new fn;  
+		console.log(a.user); //追梦子
+		// 如果返回值是一个对象，那么this指向那个返回的对象，如果返回值不是一个对象那么this还是指向函数的实例。
+		虽然null也是对象，但是在这里this还是指向那个函数的实例，因为null比较特殊。*/
+
+		// ----------- 5  ---------
+		/*var o = {
+		    a:10,
+		    b:{
+		        a:12,
+		        fn:function(){
+		            console.log(this.a); //undefined
+		            console.log(this); //window
+		        }
+		    }
+		}
+		var j = o.b.fn;
+		j();
+		// this永远指向的是最后调用它的对象，也就是看它执行的时候是谁调用的，虽然函数fn是被对象b所引用，但是在将fn赋值给变量j的时候并没有执行所以最终指向的是window*/
+
+
+		// 改变this指向的方法
+		// ----------- 构造函数 ----------
+		// new关键字改变this指向（构造函数）
+		/*function Fn() {
+			this.user = "追梦人"
+		}
+		var a = new Fn();
+		console.log(a.user)
+		// 用变量a创建了一个Fn的实例（相当于复制了一份Fn到对象a里面），此时仅仅只是创建，并没有执行，而调用这个函数Fn的是对象a，那么this指向的自然是对象a，那么为什么对象a中会有user，因为你已经复制了一份Fn函数到对象a中，用了new关键字就等同于复制了一份*/
+
+		// ----------- call ----------
+		/*var a = {
+		    user:"追梦子",
+		    fn:function(){
+		        console.log(this.user); //追梦子
+		    }
+		}
+		var b = a.fn;
+		b.call(a);	//改变指向为a*/
+
+		// call方法除了第一个参数以外还可以添加多个参数
+
+		/*var a = {
+		    user:"追梦子",
+		    fn:function(e,ee){
+		        console.log(this.user); //追梦子
+		        console.log(e+ee); //3
+		    }
+		}
+		var b = a.fn;
+		b.call(a,1,2);
+		*/
+
+		// ----------- apply ----------
+		/*var a = {
+		    user:"追梦子",
+		    fn:function(){
+		        console.log(this.user); //追梦子
+		    }
+		}
+		var b = a.fn;
+		b.apply(a);*/
+
+		// apply方法和call方法有些相似，它也可以改变this的指向，也可以有多个参数，但是不同的是，第二个参数必须是一个数组
+
+		/*var a = {
+		    user:"追梦子",
+		    fn:function(e,ee){
+		        console.log(this.user); //追梦子
+		        console.log(e+ee); //11
+		    }
+		}
+		var b = a.fn;
+		b.apply(a,[10,1]);	//注意如果call和apply的第一个参数写的是null，那么this指向的是window对象*/
+
+		// ----------- bind ----------
+		/*var a = {
+		    user:"追梦子",
+		    fn:function(){
+		        console.log(this.user);
+		    }
+		}
+		var b = a.fn;
+		b.bind(a);  //代码没有被打印,必须调用,bind方法返回的是一个修改过后的函数。
+		// b.bind(a)()
+		// 同样bind也可以有多个参数，并且在执行的时候添加，参数是按照形参的顺序进行的。*/
+	</script>
+	<script type="ming/javascript">
+		总结： call和apply都是改变上下文中的this并立即执行这个函数，bind方法可以让对应的函数想什么时候调就什么时候调用，并且可以将参数在执行的时候添加，这是它们的区别
+	</script>
+</body>
+</html>
